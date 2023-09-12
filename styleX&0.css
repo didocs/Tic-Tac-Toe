@@ -1,0 +1,28 @@
+.grid {
+  display: table;
+  border-spacing: 5px;
+}
+
+.row {
+  display: table-row;
+}
+
+.cell {
+  width: 80px;
+  height: 80px;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: 45px;
+  color: grey;
+  text-align: center;
+  background: rgb(229, 229, 229);
+  display: table-cell;
+}
+
+#messageBox {
+  text-align: left;
+  font-size: 30px;
+  color: grey;
+  margin-right: 20px;
+}
+
+
