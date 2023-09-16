@@ -25,6 +25,8 @@ function startGame() {
     });
 }
 
+startGame();
+
 function playGame(id) {
     let cell = document.getElementById(id);
     if (!playedCell.includes(id) && winnerCells.length === 0) {
