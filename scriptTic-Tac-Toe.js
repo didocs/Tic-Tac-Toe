@@ -38,10 +38,10 @@ function playGame(id) {
         } else { 
             oMoves.push(Number(id));
         }
-        rounds === 0 ? gameOver(2) : null;
+        rounds === 0 ? gameOver("It's a draw!") : null;
     }
-    checkWinnerLine(xMoves) ? gameOver(0) : null;
-    checkWinnerLine(oMoves) ? gameOver(1) : null;
+    checkWinnerLine(xMoves) ? gameOver("X player wins!!") : null;
+    checkWinnerLine(oMoves) ? gameOver("O player wins!!") : null;
     playedCell.includes(id) ? true : playedCell.push(id);
 }
 
@@ -56,10 +56,9 @@ function checkWinnerLine(array) {
     return winner === 1;
 }
 
-function gameOver(index) {
-    let text = ["X player wins!!", "O player wins!!", "It's a draw!"];
+function gameOver(text) {
     let textBox = document.getElementById('messageBox');
-    textBox.innerText = text[index];
+    textBox.innerText = text;
     if (winnerCells.length > 0) {
         grid.forEach(cell => winnerCells.includes(Number(cell.id)) ? cell.style.backgroundColor = "lightgreen" : null);
     }
