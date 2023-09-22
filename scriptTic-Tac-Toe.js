@@ -1,24 +1,18 @@
 let rounds = 9;
-let currentPlayer = "O";
+let currentPlayer = "X";
 let xMoves = [];
 let oMoves = [];
 let winnerCells = [];
 let playedCell = [];
 let grid = document.querySelectorAll(".cell");
 let winnerLine = [
-        [1, 2, 3],
-        [4, 5, 6],
-        [7, 8, 9],
-        [1, 4, 7],
-        [2, 5, 8],
-        [3, 6, 9],
-        [1, 5, 9],
-        [3, 5, 7]
+        [1, 2, 3], [4, 5, 6], [7, 8, 9],
+        [1, 4, 7], [2, 5, 8], [3, 6, 9],
+        [1, 5, 9], [3, 5, 7]
     ];
 
 function startGame() {
-    grid.forEach(function(cell) {
-        cell.addEventListener("click", function() {
+    grid.forEach(function(cell) {cell.addEventListener("click", function() {
             const id = cell.id;
             playGame(id);
         });
@@ -31,39 +25,44 @@ function playGame(id) {
     let cell = document.getElementById(id);
     if (!playedCell.includes(id) && winnerCells.length === 0) {
         --rounds;
-        currentPlayer = currentPlayer === "X" ? "O" : "X";
         cell.innerText = currentPlayer;
-         if (currentPlayer === "X") {
+        if (currentPlayer === "X") {
             xMoves.push(Number(id));
-        } else { 
+            checkWinnerLine(xMoves, "X player wins!!");
+            currentPlayer = "O";
+         } else {
             oMoves.push(Number(id));
-        }
-        rounds === 0 ? gameOver("It's a draw!") : null;
+            checkWinnerLine(oMoves, "O player wins!!");
+            currentPlayer = "X";
+         } 
+        if (rounds === 0) {
+        	gameOver("It's a draw!");
+        } 
+    } else if (!playedCell.includes(id)) {
+        playedCell.push(id);
     }
-    checkWinnerLine(xMoves) ? gameOver("X player wins!!") : null;
-    checkWinnerLine(oMoves) ? gameOver("O player wins!!") : null;
-    playedCell.includes(id) ? true : playedCell.push(id);
 }
 
-function checkWinnerLine(array) {
-    let winner = 0;
+function checkWinnerLine(array, text) {
     winnerLine.forEach(combo => {
         if (combo.every(element => array.includes(element))) {
             winnerCells = combo;
-            winner = 1;
+            gameOver(text);
         }
     });
-    return winner === 1;
 }
 
 function gameOver(text) {
     let textBox = document.getElementById('messageBox');
     textBox.innerText = text;
-    if (winnerCells.length > 0) {
-        grid.forEach(cell => winnerCells.includes(Number(cell.id)) ? cell.style.backgroundColor = "lightgreen" : null);
+    if (winnerCells.length > 0) { 
+        grid.forEach(cell =>  {if (winnerCells.includes(Number(cell.id))) {
+                cell.style.backgroundColor = "lightgreen";
+            }
+        });
     }
 }
 
-function restart() {
+function restart() {  
     location.reload();
 }
