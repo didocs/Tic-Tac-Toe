@@ -28,33 +28,33 @@ function playGame(id) {
         cell.innerText = currentPlayer;
         if (currentPlayer === "X") {
             xMoves.push(Number(id));
-            checkWinnerLine(xMoves, "X player wins!!");
+            checkWinnerLine(xMoves,currentPlayer, rounds);
             currentPlayer = "O";
          } else {
             oMoves.push(Number(id));
-            checkWinnerLine(oMoves, "O player wins!!");
+            checkWinnerLine(oMoves,currentPlayer,rounds);
             currentPlayer = "X";
          } 
-        if (rounds === 0) {
-        	gameOver("It's a draw!");
-        } 
     } else if (!playedCell.includes(id)) {
         playedCell.push(id);
     }
 }
 
-function checkWinnerLine(array, text) {
+function checkWinnerLine(array, currentPlayer, rounds) {
     winnerLine.forEach(combo => {
         if (combo.every(element => array.includes(element))) {
             winnerCells = combo;
-            gameOver(text);
+            gameOver(currentPlayer);
+        } else if (rounds === 0) {
+            currentPlayer = "No";
+            gameOver(currentPlayer);
         }
     });
 }
 
-function gameOver(text) {
-    let textBox = document.getElementById('messageBox');
-    textBox.innerText = text;
+function gameOver(currentPlayer) {
+    let text = currentPlayer + " player wins!";
+    document.getElementById('messageBox').innerText = text;
     if (winnerCells.length > 0) { 
         grid.forEach(cell =>  {if (winnerCells.includes(Number(cell.id))) {
                 cell.style.backgroundColor = "lightgreen";
